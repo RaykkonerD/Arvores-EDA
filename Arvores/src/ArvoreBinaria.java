@@ -82,6 +82,22 @@ public class ArvoreBinaria {
         removerInicio(atual, atual.getEsquerda());
     }
 
+    public boolean buscar(int valor){
+        return buscar(this.raiz, valor);
+    }
+
+    public boolean buscar(Nodo pai, int valor){
+        if(pai == null){
+            return false;
+        } else if(valor < pai.getValor()){
+            return buscar(pai.getEsquerda(), valor);
+        } else if(valor > pai.getValor()){
+            return buscar(pai.getDireita(), valor);
+        }
+
+        return true;
+    }
+
     @Override
     public String toString() {
         List<List<Nodo>> niveis = nodosPorNivel();
