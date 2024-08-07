@@ -1,3 +1,4 @@
+import java.lang.Math;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -33,50 +34,82 @@ public class ArvoreBinaria {
         }
     }
 
-    public void removerUltimo() {
-        
+    public void removerUltimo(){
+        if(this.raiz == null){
+            return;
+        }
+
+        if(this.raiz.getDireita() == null){
+            this.raiz = null;
+            return;
+        }
+
+        Nodo pai = this.raiz;
+        removerUltimo(pai, pai.getDireita());
     }
 
-    public void removerInicio() {
+    public void removerUltimo(Nodo pai, Nodo atual){
+        if(atual.getDireita() == null){
+            Nodo novoUltimo = atual.getEsquerda();
+            pai.setDireita(novoUltimo);
+            return;
+        }
 
+        removerUltimo(atual, atual.getDireita());
+    }
+
+    public void removerInicio(){
+        if(this.raiz == null){
+            return;
+        }
+
+        if(this.raiz.getEsquerda() == null){
+            this.raiz = null;
+            return;
+        }
+
+        Nodo pai = this.raiz;
+        removerInicio(pai, pai.getEsquerda());
+    }
+
+    public void removerInicio(Nodo pai, Nodo atual){
+        if(atual.getEsquerda() == null){
+            Nodo novoInicio = atual.getDireita();
+            pai.setEsquerda(novoInicio);
+            return;
+        }
+
+        removerInicio(atual, atual.getEsquerda());
     }
 
     @Override
     public String toString() {
-        List<List<Nodo>> niveis = NodosPorNivel();
-
-        // int quantNulls = 0;
-        // for (int i = 0; i < niveis.size(); i++) {
-        //     for (Nodo nodo : niveis.get(i)) {
-        //         if(nodo == null){
-        //             quantNulls++;
-        //         }
-        //     }
-        // }
+        List<List<Nodo>> niveis = nodosPorNivel();
 
         String str = "";
         for (int i = 0; i < niveis.size(); i++) {
             str += "Level " + i + ": ";
-            for (int j = 0; j < (niveis.size() - i) * 2; j++) {
+            int nEspacos = (int) (niveis.get(niveis.size() - 1).size() * 2 / Math.pow(2, (i+1)));
+
+            for (int j = 0; j < nEspacos + niveis.size() - 2 - i; j++) {
                 str += " ";
             }
 
+            boolean mesmoPai = true;
             for (Nodo nodo : niveis.get(i)) {
                 str += ((nodo == null) ? "*" : nodo.getValor());
-                for (int k = 0; k < (niveis.size() - i) * 2; k++) {
+                for (int k = 0; k < (mesmoPai ? nEspacos*2 : nEspacos + niveis.size() - 1 - i); k++) {
                     str += " ";
                 }
+                mesmoPai = !mesmoPai;
             }
-            // for (Nodo nodo : niveis.get(i)) {
-            // System.out.print((nodo == null) ? "null" : nodo.getValor());
-            // }
-            // System.out.println();
             str += "\n";
         }
+        
         return str;
     }
 
-    public List<List<Nodo>> NodosPorNivel() {
+    public List<List<Nodo>> nodosPorNivel() {
         List<List<Nodo>> niveis = new ArrayList<>();
         if (this.raiz == null) {
             return niveis;
@@ -85,7 +118,7 @@ public class ArvoreBinaria {
         Queue<Nodo> nivel = new LinkedList<>();
         nivel.add(this.raiz);
 
-        while (!nivel.isEmpty()) {
+        while (!nivelEhUltimo(nivel)) {
             int nivelTamanho = nivel.size();
             List<Nodo> currentLevel = new ArrayList<>();
 
@@ -93,6 +126,8 @@ public class ArvoreBinaria {
                 Nodo nodo = nivel.poll();
                 currentLevel.add(nodo);
                 if (nodo == null) {
+                    nivel.add(null);
+                    nivel.add(null);
                     continue;
                 } else {
                     if (nodo.getEsquerda() != null) {
@@ -113,5 +148,14 @@ public class ArvoreBinaria {
         }
 
         return niveis;
+    }
+
+    public boolean nivelEhUltimo(Queue<Nodo> nivel) {
+        for (Nodo nodo : nivel) {
+            if (nodo != null) {
+                return false;
+            }
+        }
+        return true;
     }
 }
