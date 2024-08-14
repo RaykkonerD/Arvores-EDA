@@ -1,6 +1,5 @@
 public class App {
     public static void main(String[] args) throws Exception {
-        // 😃 VERIFICAR SE A RAIZ É NULL AO INSERIR
         ArvoreBinaria arvore = new ArvoreBinaria(10);
 
         // Inserção

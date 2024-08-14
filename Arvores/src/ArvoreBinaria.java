@@ -12,12 +12,12 @@ public class ArvoreBinaria {
     }
 
     public void inserir(int valor) {
-        if(buscar(valor)) {
-            return ;
+        if (this.raiz == null) {
+            this.raiz = new Nodo(valor);
+        } else if (!buscar(valor)) {
+            Nodo novoNodo = new Nodo(valor);
+            inserir(novoNodo, this.raiz);
         }
-
-        Nodo novoNodo = new Nodo(valor);
-        inserir(novoNodo, this.raiz);
     }
 
     public void inserir(Nodo novoNodo, Nodo pai) {
@@ -44,7 +44,8 @@ public class ArvoreBinaria {
         }
 
         if (this.raiz.getDireita() == null) {
-            this.raiz = null;
+            Nodo novaRaiz = this.raiz.getEsquerda();
+            this.raiz = novaRaiz;
             return;
         }
 
@@ -68,7 +69,8 @@ public class ArvoreBinaria {
         }
 
         if (this.raiz.getEsquerda() == null) {
-            this.raiz = null;
+            Nodo novaRaiz = this.raiz.getDireita();
+            this.raiz = novaRaiz;
             return;
         }
 
@@ -115,6 +117,7 @@ public class ArvoreBinaria {
             percorrerPreOrdem(nodo.getDireita());
         }
     }
+
     public void percorrerEmOrdem() {
         System.out.print("Em ordem: ");
         percorrerEmOrdem(this.raiz);
