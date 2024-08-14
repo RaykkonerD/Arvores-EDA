@@ -1,21 +1,46 @@
 public class App {
     public static void main(String[] args) throws Exception {
-        ArvoreBinaria ab = new ArvoreBinaria(10);
-        ab.inserir(5);
-        ab.inserir(8);
-        ab.inserir(20);
-        ab.inserir(22);
-        ab.inserir(11);
-        ab.inserir(7);
-        ab.inserir(21);
-        // ab.removerUltimo();
-        ab.removerInicio();
-        ab.removerInicio();
-        System.out.println(ab);
+        // 😃 VERIFICAR SE A RAIZ É NULL AO INSERIR
+        ArvoreBinaria arvore = new ArvoreBinaria(10);
+
+        // Inserção
+        arvore.inserir(3);
+        arvore.inserir(7);
+        arvore.inserir(8);
+        arvore.inserir(20);
+        arvore.inserir(23);
+        arvore.inserir(22);
+        arvore.inserir(11);
+        arvore.inserir(21);
+        arvore.inserir(6);
+        arvore.inserir(5);
+        arvore.inserir(4);
+        arvore.inserir(20);
+
+        // Apresentação
         System.out.println();
-        System.out.println("22 " + (ab.buscar(22) ? "está" : "não está") + " na árvore!");
-        System.out.println("5 " + (ab.buscar(5) ? "está" : "não está") + " na árvore!");
-        System.out.println("8 " + (ab.buscar(8) ? "está" : "não está") + " na árvore!");
-        System.out.println("30 " + (ab.buscar(30) ? "está" : "não está") + " na árvore!");
+        System.out.println(arvore);
+
+        // Remoção
+        arvore.removerUltimo();
+        arvore.removerInicio();
+        arvore.removerInicio();
+        
+        // Apresentação
+        System.out.println();
+        System.out.println(arvore);
+        System.out.println();
+
+        // Percurso
+        arvore.percorrerPreOrdem();
+        arvore.percorrerEmOrdem();
+        arvore.percorrerPosOrdem();
+
+        // Buscar
+        System.out.println("22 " + (arvore.buscar(22) ? "está" : "não está") + " na árvore!");
+        System.out.println("5 " + (arvore.buscar(5) ? "está" : "não está") + " na árvore!");
+        System.out.println("10 " + (arvore.buscar(10) ? "está" : "não está") + " na árvore!");
+        System.out.println("3 " + (arvore.buscar(3) ? "está" : "não está") + " na árvore!");
+        System.out.println("30 " + (arvore.buscar(30) ? "está" : "não está") + " na árvore!");
     }
 }

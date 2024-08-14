@@ -12,6 +12,10 @@ public class ArvoreBinaria {
     }
 
     public void inserir(int valor) {
+        if(buscar(valor)) {
+            return ;
+        }
+
         Nodo novoNodo = new Nodo(valor);
         inserir(novoNodo, this.raiz);
     }
@@ -34,12 +38,12 @@ public class ArvoreBinaria {
         }
     }
 
-    public void removerUltimo(){
-        if(this.raiz == null){
+    public void removerUltimo() {
+        if (this.raiz == null) {
             return;
         }
 
-        if(this.raiz.getDireita() == null){
+        if (this.raiz.getDireita() == null) {
             this.raiz = null;
             return;
         }
@@ -48,8 +52,8 @@ public class ArvoreBinaria {
         removerUltimo(pai, pai.getDireita());
     }
 
-    public void removerUltimo(Nodo pai, Nodo atual){
-        if(atual.getDireita() == null){
+    public void removerUltimo(Nodo pai, Nodo atual) {
+        if (atual.getDireita() == null) {
             Nodo novoUltimo = atual.getEsquerda();
             pai.setDireita(novoUltimo);
             return;
@@ -58,12 +62,12 @@ public class ArvoreBinaria {
         removerUltimo(atual, atual.getDireita());
     }
 
-    public void removerInicio(){
-        if(this.raiz == null){
+    public void removerInicio() {
+        if (this.raiz == null) {
             return;
         }
 
-        if(this.raiz.getEsquerda() == null){
+        if (this.raiz.getEsquerda() == null) {
             this.raiz = null;
             return;
         }
@@ -72,8 +76,8 @@ public class ArvoreBinaria {
         removerInicio(pai, pai.getEsquerda());
     }
 
-    public void removerInicio(Nodo pai, Nodo atual){
-        if(atual.getEsquerda() == null){
+    public void removerInicio(Nodo pai, Nodo atual) {
+        if (atual.getEsquerda() == null) {
             Nodo novoInicio = atual.getDireita();
             pai.setEsquerda(novoInicio);
             return;
@@ -82,20 +86,61 @@ public class ArvoreBinaria {
         removerInicio(atual, atual.getEsquerda());
     }
 
-    public boolean buscar(int valor){
+    public boolean buscar(int valor) {
         return buscar(this.raiz, valor);
     }
 
-    public boolean buscar(Nodo pai, int valor){
-        if(pai == null){
+    public boolean buscar(Nodo pai, int valor) {
+        if (pai == null) {
             return false;
-        } else if(valor < pai.getValor()){
+        } else if (valor < pai.getValor()) {
             return buscar(pai.getEsquerda(), valor);
-        } else if(valor > pai.getValor()){
+        } else if (valor > pai.getValor()) {
             return buscar(pai.getDireita(), valor);
         }
 
         return true;
+    }
+
+    public void percorrerPreOrdem() {
+        System.out.print("Pré-ordem: ");
+        percorrerPreOrdem(this.raiz);
+        System.out.println("\n");
+    }
+
+    public void percorrerPreOrdem(Nodo nodo) {
+        if (nodo != null) {
+            System.out.print(nodo.getValor() + " ");
+            percorrerPreOrdem(nodo.getEsquerda());
+            percorrerPreOrdem(nodo.getDireita());
+        }
+    }
+    public void percorrerEmOrdem() {
+        System.out.print("Em ordem: ");
+        percorrerEmOrdem(this.raiz);
+        System.out.println("\n");
+    }
+
+    public void percorrerEmOrdem(Nodo nodo) {
+        if (nodo != null) {
+            percorrerEmOrdem(nodo.getEsquerda());
+            System.out.print(nodo.getValor() + " ");
+            percorrerEmOrdem(nodo.getDireita());
+        }
+    }
+
+    public void percorrerPosOrdem() {
+        System.out.print("Pós-ordem: ");
+        percorrerPosOrdem(this.raiz);
+        System.out.println("\n");
+    }
+
+    public void percorrerPosOrdem(Nodo nodo) {
+        if (nodo != null) {
+            percorrerPosOrdem(nodo.getEsquerda());
+            percorrerPosOrdem(nodo.getDireita());
+            System.out.print(nodo.getValor() + " ");
+        }
     }
 
     @Override
@@ -105,7 +150,7 @@ public class ArvoreBinaria {
         String str = "";
         for (int i = 0; i < niveis.size(); i++) {
             str += "Level " + i + ": ";
-            int nEspacos = (int) (niveis.get(niveis.size() - 1).size() * 2 / Math.pow(2, (i+1)));
+            int nEspacos = (int) (niveis.get(niveis.size() - 1).size() * 2 / Math.pow(2, (i + 1)));
 
             for (int j = 0; j < nEspacos + niveis.size() - 2 - i; j++) {
                 str += " ";
@@ -114,14 +159,14 @@ public class ArvoreBinaria {
             boolean mesmoPai = true;
             for (Nodo nodo : niveis.get(i)) {
                 str += ((nodo == null) ? "*" : nodo.getValor());
-                for (int k = 0; k < (mesmoPai ? nEspacos*2 : nEspacos + niveis.size() - 1 - i); k++) {
+                for (int k = 0; k < (mesmoPai ? nEspacos * 2 : nEspacos + niveis.size() - 1 - i); k++) {
                     str += " ";
                 }
                 mesmoPai = !mesmoPai;
             }
             str += "\n";
         }
-        
+
         return str;
     }
 
