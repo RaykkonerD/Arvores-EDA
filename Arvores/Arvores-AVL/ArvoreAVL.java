@@ -19,7 +19,7 @@ public class ArvoreAVL {
         } else if (!buscar(valor)) {
             Nodo novoNodo = new Nodo(valor);
             inserir(novoNodo, this.raiz);
-            calcularFatorDeBalanceamento(this.raiz, this.raiz.getEsquerda());
+            calcularFatorDeBalanceamento(this.raiz);
         }
     }
 
@@ -42,23 +42,53 @@ public class ArvoreAVL {
             inserir(novoNodo, pai);
         }
     }
-
-    public int calcularFatorDeBalanceamento(Nodo pai, Nodo nodo) {
+    
+    public int calcularFatorDeBalanceamento(Nodo nodo) {
         if (nodo != null) {
-            int alturaEsquerda = calcularFatorDeBalanceamento(nodo, nodo.getEsquerda());
-            int alturaDireita = calcularFatorDeBalanceamento(nodo, nodo.getDireita());
+            if(nodo.getEsquerda() == null && nodo.getDireita() == null){
+                nodo.setAltura(0);
+            }
+            int fatorDeBalanceamentoEsquerda = calcularFatorDeBalanceamento(nodo.getEsquerda());
+            int fatorDeBalanceamentoDireita = calcularFatorDeBalanceamento(nodo.getDireita());
+            int alturaEsquerda = nodo.getEsquerda().getAltura();
+            int alturaDireita = nodo.getDireita().getAltura();
             int fatorDeBalanceamento = alturaEsquerda - alturaDireita;
 
-            if (fatorDeBalanceamento > 1) {
-                System.out.println("+2: " + nodo.getValor());
-            } else if (fatorDeBalanceamento < -1) {
-                System.out.println("-2: " + nodo.getValor());
+            System.out.println();
+            ArvoreAVL aavl = new ArvoreAVL(0);
+            aavl.setRaiz(nodo);
+            App.printTree(aavl);
+            System.out.println();
+
+            if (fatorDeBalanceamento == 2 && fatorDeBalanceamentoEsquerda == 1){
+                    // Rotação simples à direita
+                    if(this.raiz == nodo){
+
+                    } else {
+                        Nodo e = nodo.getEsquerda().getDireita();
+                        nodo.getPai().setEsquerda(nodo.getEsquerda());
+                        
+                    }
+            } else if (fatorDeBalanceamento == 2 && fatorDeBalanceamentoEsquerda == -1){
+                    // Rotação dupla à esquerda/direita
+            } else if (fatorDeBalanceamento == -2 && fatorDeBalanceamentoEsquerda == -1) {
+                    // Rotação simples à esquerda
+            } else if (fatorDeBalanceamento == -2 && fatorDeBalanceamentoEsquerda == 1) {
+                    // Rotação dupla à direita/esquerda
             }
 
-            return Math.max(alturaEsquerda, alturaDireita) + 1;
+            if(fatorDeBalanceamento == 2 || fatorDeBalanceamento == -2)
+            System.out.println(fatorDeBalanceamento + ": " + nodo.getValor());
+
+            nodo.setAltura(Math.max(alturaEsquerda, alturaDireita) + 1);
+            return fatorDeBalanceamento;
         } else {
             return -1;
         }
+    }
+
+    private void setRaiz(Nodo nodo) {
+        this.raiz = nodo;
     }
 
     public void removerUltimo() {

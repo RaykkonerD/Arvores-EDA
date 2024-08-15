@@ -3,6 +3,7 @@ public class Nodo {
     private Nodo pai;
     private Nodo esquerda;
     private Nodo direita;
+    private int altura;
 
     public Nodo(int valor){
         this.valor = valor;
@@ -18,6 +19,14 @@ public class Nodo {
 
     public void setPai(Nodo pai){
         this.pai = pai;
+    }
+
+    public int getAltura(){
+        return this.altura;
+    }
+
+    public void setAltura(int altura){
+        this.altura = altura;
     }
 
     public Nodo getEsquerda(){

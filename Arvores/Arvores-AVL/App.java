@@ -32,6 +32,8 @@ public class App {
         printTree(arvore);
         System.out.println();
 
+        arvore.calcularFatorDeBalanceamento(arvore.getRaiz());
+
         // Percurso
         arvore.percorrerPreOrdem();
         arvore.percorrerEmOrdem();
