@@ -1,10 +1,9 @@
 # Estruturas de Dados e Algoritmos
 
-<img alt="Logo do Instituto Federal da Paraíba" width="10%" src="https://www.ifpb.edu.br/en/imagens/logotipos/ifpb.png" align="center" />
-Este repositório contém códigos desenvolvidos durante o processo de aprendizagem e as atividades da disciplina de Estrutura de Dados e Algoritmos, ministrada pela professora Renata França de Pontes, no Curso Superior de Tecnologia em Análise e Desenvolvimento de Sistemas do Instituto Federal de Educação, Ciência e Tecnologia da Paraíba - Campus Esperança.
-
-## Professora
-<img alt="Foto da professora Renata França de Pontes" width="10%" src="https://servicosweb.cnpq.br/wspessoa/servletrecuperafoto?tipo=1&id=K4248723Y2"/> Prof. Renata França de Pontes
+<img alt="Logo do Instituto Federal da Paraíba" width="10%" src="https://www.ifpb.edu.br/en/imagens/logotipos/ifpb.png" align="left" />
+<img alt="Foto da professora Renata França de Pontes" width="10%" src="https://servicosweb.cnpq.br/wspessoa/servletrecuperafoto?tipo=1&id=K4248723Y2" align="right"/>
+Este repositório contém códigos desenvolvidos durante o processo de aprendizagem e as atividades da disciplina de Estrutura de Dados e Algoritmos, ministrada pela professora Renata França de Pontes, no Curso Superior de Tecnologia em Análise e Desenvolvimento de Sistemas do Instituto Federal de Educação, Ciência e Tecnologia da Paraíba - Campus Esperança. 
+<p align="right" style="width: 10%;">Prof. Renata França de Pontes</p>
 
 ## Índice
 
