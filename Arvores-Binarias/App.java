@@ -26,7 +26,7 @@ public class App {
         
         // Apresentação
         System.out.println();
-        printTree(arvore);
+        apresentarArvore(arvore);
         System.out.println();
 
         // Percurso
@@ -34,7 +34,7 @@ public class App {
         arvore.percorrerEmOrdem();
         arvore.percorrerPosOrdem();
 
-        // Buscar
+        // Busca
         System.out.println("22 " + (arvore.buscar(22) ? "está" : "não está") + " na árvore!");
         System.out.println("5 " + (arvore.buscar(5) ? "está" : "não está") + " na árvore!");
         System.out.println("10 " + (arvore.buscar(10) ? "está" : "não está") + " na árvore!");
@@ -53,81 +53,84 @@ public class App {
         arvore.inserir(4);
         arvore.inserir(3);
         arvore.inserir(2);
+        
+        // Apresentação
+        // System.out.println();
+        // apresentarArvore(arvore);
+        // System.out.println();
     }
 
-    public static void printTree(ArvoreBinaria tree) {
-        if (tree == null || tree.getRaiz() == null) {
+    public static void apresentarArvore(ArvoreBinaria arvore) {
+        if (arvore == null || arvore.getRaiz() == null) {
             System.out.println("A árvore está vazia.");
             return;
         }
-        List<List<String>> lines = new ArrayList<>();
-        List<Nodo> level = new ArrayList<>();
-        List<Nodo> next = new ArrayList<>();
-        level.add(tree.getRaiz());
-        int nn = 1;
-        int widest = 0;
+        List<List<String>> linhas = new ArrayList<>();
+        List<Nodo> nivel = new ArrayList<>();
+        List<Nodo> proximoNivel = new ArrayList<>();
+        nivel.add(arvore.getRaiz());
+        int nNodosNoNivel = 1;
+        int valorMaisLongo = 0;
 
-        while (nn != 0) {
-            List<String> line = new ArrayList<>();
-            nn = 0;
+        while (nNodosNoNivel != 0) {
+            List<String> linha = new ArrayList<>();
+            nNodosNoNivel = 0;
 
-            for (Nodo n : level) {
-                if (n == null) {
-                    line.add(null);
-                    next.add(null);
-                    next.add(null);
+            for (Nodo nodo : nivel) {
+                if (nodo == null) {
+                    linha.add(null);
+                    proximoNivel.add(null);
+                    proximoNivel.add(null);
                 } else {
-                    String aa = String.valueOf(n.getValor());
-                    line.add(aa);
-                    if (aa.length() > widest) widest = aa.length();
+                    String valor = String.valueOf(nodo.getValor());
+                    linha.add(valor);
+                    if (valor.length() > valorMaisLongo) valorMaisLongo = valor.length();
 
-                    next.add(n.getEsquerda());
-                    next.add(n.getDireita());
+                    proximoNivel.add(nodo.getEsquerda());
+                    proximoNivel.add(nodo.getDireita());
 
-                    if (n.getEsquerda() != null) nn++;
-                    if (n.getDireita() != null) nn++;
+                    if (nodo.getEsquerda() != null) nNodosNoNivel++;
+                    if (nodo.getDireita() != null) nNodosNoNivel++;
                 }
             }
 
-            if (widest % 2 == 1) widest++;
+            if (valorMaisLongo % 2 == 1) valorMaisLongo++;
 
-            lines.add(line);
+            linhas.add(linha);
 
-            List<Nodo> tmp = level;
-            level = next;
-            next = tmp;
-            next.clear();
+            List<Nodo> tmp = nivel;
+            nivel = proximoNivel;
+            proximoNivel = tmp;
+            proximoNivel.clear();
         }
 
-        int perpiece = lines.get(lines.size() - 1).size() * (widest + 4);
-        for (int i = 0; i < lines.size(); i++) {
-            List<String> line = lines.get(i);
-            int hpw = (int) Math.floor(perpiece / 2f) - 1;
+        int larguraDoNivel = linhas.get(linhas.size() - 1).size() * (valorMaisLongo + 4);
+        for (int i = 0; i < linhas.size(); i++) {
+            List<String> linha = linhas.get(i);
+            int metadeDaLarguraDoNivel = (int) Math.floor(larguraDoNivel / 2f) - 1;
 
             if (i > 0) {
-                for (int j = 0; j < line.size(); j++) {
-                    // split node
+                for (int j = 0; j < linha.size(); j++) {
                     char c = ' ';
                     if (j % 2 == 1) {
-                        if (line.get(j - 1) != null) {
-                            c = (line.get(j) != null) ? '|' : ' ';
+                        if (linha.get(j - 1) != null) {
+                            c = (linha.get(j) != null) ? '|' : ' ';
                         } else {
-                            if (j < line.size() && line.get(j) != null) c = ' ';
+                            if (j < linha.size() && linha.get(j) != null) c = ' ';
                         }
                     }
                     System.out.print(c);
 
-                    // lines and spaces
-                    if (line.get(j) == null) {
-                        for (int k = 0; k < perpiece - 1; k++) {
+                    if (linha.get(j) == null) {
+                        for (int k = 0; k < larguraDoNivel - 1; k++) {
                             System.out.print(" ");
                         }
                     } else {
-                        for (int k = 0; k < hpw; k++) {
+                        for (int k = 0; k < metadeDaLarguraDoNivel; k++) {
                             System.out.print(j % 2 == 0 ? " " : "-");
                         }
                         System.out.print(j % 2 == 0 ? '|' : '|');
-                        for (int k = 0; k < hpw; k++) {
+                        for (int k = 0; k < metadeDaLarguraDoNivel; k++) {
                             System.out.print(j % 2 == 0 ? "-" : " ");
                         }
                     }
@@ -135,25 +138,23 @@ public class App {
                 System.out.println();
             }
 
-            // print line of numbers
-            for (int j = 0; j < line.size(); j++) {
-                String f = line.get(j);
+            for (int j = 0; j < linha.size(); j++) {
+                String f = linha.get(j);
                 if (f == null) f = "";
-                int gap1 = (int) Math.ceil(perpiece / 2f - f.length() / 2f);
-                int gap2 = (int) Math.floor(perpiece / 2f - f.length() / 2f);
+                int espacamento1 = (int) Math.ceil(larguraDoNivel / 2f - f.length() / 2f);
+                int espacamento2 = (int) Math.floor(larguraDoNivel / 2f - f.length() / 2f);
 
-                // a number
-                for (int k = 0; k < gap1; k++) {
+                for (int k = 0; k < espacamento1; k++) {
                     System.out.print(" ");
                 }
                 System.out.print(f);
-                for (int k = 0; k < gap2; k++) {
+                for (int k = 0; k < espacamento2; k++) {
                     System.out.print(" ");
                 }
             }
             System.out.println();
 
-            perpiece /= 2;
+            larguraDoNivel /= 2;
         }
     }
 }
