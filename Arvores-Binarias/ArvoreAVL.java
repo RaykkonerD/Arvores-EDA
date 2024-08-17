@@ -11,7 +11,7 @@ public class ArvoreAVL extends ArvoreBinaria {
             super.setRaiz(new Nodo(valor));
         } else if (!buscar(valor)) {
             Nodo novoNodo = new Nodo(valor);
-            super.inserir(novoNodo, super.getRaiz());
+            inserir(novoNodo, super.getRaiz());
 
             System.out.println("::: Inserção :::");
             App.apresentarArvore(this);
@@ -25,6 +25,27 @@ public class ArvoreAVL extends ArvoreBinaria {
         }
     }
 
+    @Override
+    public void inserir(Nodo novoNodo, Nodo pai) {
+        if (novoNodo.getValor() < pai.getValor()) {
+            if (pai.getEsquerda() == null) {
+                pai.setEsquerda(novoNodo);
+                novoNodo.setPai(pai);
+                return;
+            }
+            pai = pai.getEsquerda();
+            inserir(novoNodo, pai);
+        } else {
+            if (pai.getDireita() == null) {
+                pai.setDireita(novoNodo);
+                novoNodo.setPai(pai);
+                return;
+            }
+            pai = pai.getDireita();
+            inserir(novoNodo, pai);
+        }
+    }
+
     public int calcularFatorDeBalanceamento(Nodo nodo) {
         if (nodo != null) {
             int fatorDeBalanceamentoEsquerda = calcularFatorDeBalanceamento(nodo.getEsquerda());
@@ -32,7 +53,6 @@ public class ArvoreAVL extends ArvoreBinaria {
             int alturaEsquerda = (nodo.getEsquerda() != null) ? nodo.getEsquerda().getAltura() : -1;
             int alturaDireita = (nodo.getDireita() != null) ? nodo.getDireita().getAltura() : -1;
             int fatorDeBalanceamento = alturaEsquerda - alturaDireita;
-            
 
             if (fatorDeBalanceamento == 2 && fatorDeBalanceamentoEsquerda == 1) {
                 // Rotação simples à direita

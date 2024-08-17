@@ -82,7 +82,7 @@ public class App {
                     proximoNivel.add(null);
                     proximoNivel.add(null);
                 } else {
-                    String valor = String.valueOf(nodo.getValor());
+                    String valor = String.valueOf(nodo.getValor() + "(" + ((nodo.getPai() != null) ? nodo.getPai().getValor() : "null") + ")");
                     linha.add(valor);
                     if (valor.length() > valorMaisLongo) valorMaisLongo = valor.length();
 
