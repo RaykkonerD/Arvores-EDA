@@ -1,7 +1,3 @@
-import java.lang.Math;
-import java.util.ArrayList;
-import java.util.List;
-
 public class ArvoreBinaria {
     private Nodo raiz;
 
@@ -11,6 +7,10 @@ public class ArvoreBinaria {
 
     public Nodo getRaiz(){
         return this.raiz;
+    }
+
+    public void setRaiz(Nodo raiz){
+        this.raiz = raiz;
     }
 
     public void inserir(int valor) {

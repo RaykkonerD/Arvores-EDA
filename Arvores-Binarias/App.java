@@ -2,8 +2,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class App {
-    public static void main(String[] args) throws Exception {
-        ArvoreAVL arvore = new ArvoreAVL(10);
+    public static void testesArvoreBinaria(){
+        ArvoreBinaria arvore = new ArvoreBinaria(10);
 
         // Inserção
         arvore.inserir(3);
@@ -23,16 +23,11 @@ public class App {
         arvore.removerUltimo();
         arvore.removerInicio();
         arvore.removerInicio();
-
-        // Desbalanceamento
-        arvore.inserir(3);
         
         // Apresentação
         System.out.println();
         printTree(arvore);
         System.out.println();
-
-        arvore.calcularFatorDeBalanceamento(arvore.getRaiz());
 
         // Percurso
         arvore.percorrerPreOrdem();
@@ -46,16 +41,29 @@ public class App {
         System.out.println("3 " + (arvore.buscar(3) ? "está" : "não está") + " na árvore!");
         System.out.println("30 " + (arvore.buscar(30) ? "está" : "não está") + " na árvore!");
     }
+    public static void main(String[] args) {
+        ArvoreAVL arvore = new ArvoreAVL(10);
 
-    public static void printTree(ArvoreAVL arvore) {
-        if (arvore == null || arvore.getRaiz() == null) {
+        // Inserção
+        arvore.inserir(9);
+        arvore.inserir(7);
+        arvore.inserir(6);
+        arvore.inserir(8);
+        arvore.inserir(5);
+        arvore.inserir(4);
+        arvore.inserir(3);
+        arvore.inserir(2);
+    }
+
+    public static void printTree(ArvoreBinaria tree) {
+        if (tree == null || tree.getRaiz() == null) {
             System.out.println("A árvore está vazia.");
             return;
         }
-        List<List<String>> linhas = new ArrayList<>();
-        List<Nodo> nivel = new ArrayList<>();
-        List<Nodo> proximo = new ArrayList<>();
-        nivel.add(arvore.getRaiz());
+        List<List<String>> lines = new ArrayList<>();
+        List<Nodo> level = new ArrayList<>();
+        List<Nodo> next = new ArrayList<>();
+        level.add(tree.getRaiz());
         int nn = 1;
         int widest = 0;
 
@@ -63,18 +71,18 @@ public class App {
             List<String> line = new ArrayList<>();
             nn = 0;
 
-            for (Nodo n : nivel) {
+            for (Nodo n : level) {
                 if (n == null) {
                     line.add(null);
-                    proximo.add(null);
-                    proximo.add(null);
+                    next.add(null);
+                    next.add(null);
                 } else {
                     String aa = String.valueOf(n.getValor());
                     line.add(aa);
                     if (aa.length() > widest) widest = aa.length();
 
-                    proximo.add(n.getEsquerda());
-                    proximo.add(n.getDireita());
+                    next.add(n.getEsquerda());
+                    next.add(n.getDireita());
 
                     if (n.getEsquerda() != null) nn++;
                     if (n.getDireita() != null) nn++;
@@ -83,17 +91,17 @@ public class App {
 
             if (widest % 2 == 1) widest++;
 
-            linhas.add(line);
+            lines.add(line);
 
-            List<Nodo> tmp = nivel;
-            nivel = proximo;
-            proximo = tmp;
-            proximo.clear();
+            List<Nodo> tmp = level;
+            level = next;
+            next = tmp;
+            next.clear();
         }
 
-        int perpiece = linhas.get(linhas.size() - 1).size() * (widest + 4);
-        for (int i = 0; i < linhas.size(); i++) {
-            List<String> line = linhas.get(i);
+        int perpiece = lines.get(lines.size() - 1).size() * (widest + 4);
+        for (int i = 0; i < lines.size(); i++) {
+            List<String> line = lines.get(i);
             int hpw = (int) Math.floor(perpiece / 2f) - 1;
 
             if (i > 0) {
@@ -109,7 +117,7 @@ public class App {
                     }
                     System.out.print(c);
 
-                    // linhas and spaces
+                    // lines and spaces
                     if (line.get(j) == null) {
                         for (int k = 0; k < perpiece - 1; k++) {
                             System.out.print(" ");

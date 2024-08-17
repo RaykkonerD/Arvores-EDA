@@ -1,25 +1,30 @@
 import java.lang.Math;
-import java.util.ArrayList;
-import java.util.List;
 
-public class ArvoreAVL {
-    private Nodo raiz;
-
+public class ArvoreAVL extends ArvoreBinaria {
     public ArvoreAVL(int raiz) {
-        this.raiz = new Nodo(raiz);
+        super(raiz);
     }
 
     public Nodo getRaiz() {
-        return this.raiz;
+        return super.getRaiz();
     }
 
     public void inserir(int valor) {
-        if (this.raiz == null) {
-            this.raiz = new Nodo(valor);
+        if (super.getRaiz() == null) {
+            super.setRaiz(new Nodo(valor));
         } else if (!buscar(valor)) {
             Nodo novoNodo = new Nodo(valor);
-            inserir(novoNodo, this.raiz);
-            calcularFatorDeBalanceamento(this.raiz);
+            inserir(novoNodo, super.getRaiz());
+
+            System.out.println("::: Inserção :::");
+            App.printTree(this);
+            System.out.println();
+
+            calcularFatorDeBalanceamento(super.getRaiz());
+
+                System.out.println("::: Balanceamento :::");
+                App.printTree(this);
+                System.out.println();
         }
     }
 
@@ -42,43 +47,49 @@ public class ArvoreAVL {
             inserir(novoNodo, pai);
         }
     }
-    
+
     public int calcularFatorDeBalanceamento(Nodo nodo) {
         if (nodo != null) {
-            if(nodo.getEsquerda() == null && nodo.getDireita() == null){
-                nodo.setAltura(0);
-            }
             int fatorDeBalanceamentoEsquerda = calcularFatorDeBalanceamento(nodo.getEsquerda());
             int fatorDeBalanceamentoDireita = calcularFatorDeBalanceamento(nodo.getDireita());
-            int alturaEsquerda = nodo.getEsquerda().getAltura();
-            int alturaDireita = nodo.getDireita().getAltura();
+            int alturaEsquerda = (nodo.getEsquerda() != null) ? nodo.getEsquerda().getAltura() : -1;
+            int alturaDireita = (nodo.getDireita() != null) ? nodo.getDireita().getAltura() : -1;
             int fatorDeBalanceamento = alturaEsquerda - alturaDireita;
+            
 
-            System.out.println();
-            ArvoreAVL aavl = new ArvoreAVL(0);
-            aavl.setRaiz(nodo);
-            App.printTree(aavl);
-            System.out.println();
+            if (fatorDeBalanceamento == 2 && fatorDeBalanceamentoEsquerda == 1) {
+                // Rotação simples à direita
+                if (super.getRaiz() == nodo) {
+                    super.setRaiz(nodo.getEsquerda());
+                    super.getRaiz().setPai(null);
+                    Nodo aDireita = super.getRaiz().getDireita();
 
-            if (fatorDeBalanceamento == 2 && fatorDeBalanceamentoEsquerda == 1){
-                    // Rotação simples à direita
-                    if(this.raiz == nodo){
-
-                    } else {
-                        Nodo e = nodo.getEsquerda().getDireita();
-                        nodo.getPai().setEsquerda(nodo.getEsquerda());
-                        
+                    if (aDireita != null) {
+                        aDireita.setPai(nodo);
                     }
-            } else if (fatorDeBalanceamento == 2 && fatorDeBalanceamentoEsquerda == -1){
-                    // Rotação dupla à esquerda/direita
-            } else if (fatorDeBalanceamento == -2 && fatorDeBalanceamentoEsquerda == -1) {
-                    // Rotação simples à esquerda
-            } else if (fatorDeBalanceamento == -2 && fatorDeBalanceamentoEsquerda == 1) {
-                    // Rotação dupla à direita/esquerda
-            }
 
-            if(fatorDeBalanceamento == 2 || fatorDeBalanceamento == -2)
-            System.out.println(fatorDeBalanceamento + ": " + nodo.getValor());
+                    nodo.setEsquerda(aDireita);
+                    nodo.setPai(super.getRaiz());
+                    super.getRaiz().setDireita(nodo);
+                } else {
+                    nodo.getEsquerda().setPai(nodo.getPai());
+                    nodo.getPai().setEsquerda(nodo.getEsquerda());
+                    nodo.setEsquerda(nodo.getEsquerda().getDireita());
+
+                    if (nodo.getEsquerda() != null) {
+                        nodo.getEsquerda().setPai(nodo);
+                    }
+
+                    nodo.setPai(nodo.getPai().getEsquerda());
+                    nodo.getPai().setDireita(nodo);
+                }
+            } else if (fatorDeBalanceamento == 2 && fatorDeBalanceamentoEsquerda == -1) {
+                // Rotação dupla à esquerda/direita
+            } else if (fatorDeBalanceamento == -2 && fatorDeBalanceamentoDireita == -1) {
+                // Rotação simples à esquerda
+            } else if (fatorDeBalanceamento == -2 && fatorDeBalanceamentoDireita == 1) {
+                // Rotação dupla à direita/esquerda
+            }
 
             nodo.setAltura(Math.max(alturaEsquerda, alturaDireita) + 1);
             return fatorDeBalanceamento;
@@ -87,23 +98,19 @@ public class ArvoreAVL {
         }
     }
 
-    private void setRaiz(Nodo nodo) {
-        this.raiz = nodo;
-    }
-
     public void removerUltimo() {
-        if (this.raiz == null) {
+        if (super.getRaiz() == null) {
             return;
         }
 
-        if (this.raiz.getDireita() == null) {
-            Nodo novaRaiz = this.raiz.getEsquerda();
+        if (super.getRaiz().getDireita() == null) {
+            Nodo novaRaiz = super.getRaiz().getEsquerda();
             novaRaiz.setPai(null);
-            this.raiz = novaRaiz;
+            super.setRaiz(novaRaiz);
             return;
         }
 
-        Nodo pai = this.raiz;
+        Nodo pai = super.getRaiz();
         removerUltimo(pai, pai.getDireita());
     }
 
@@ -121,18 +128,18 @@ public class ArvoreAVL {
     }
 
     public void removerInicio() {
-        if (this.raiz == null) {
+        if (super.getRaiz() == null) {
             return;
         }
 
-        if (this.raiz.getEsquerda() == null) {
-            Nodo novaRaiz = this.raiz.getDireita();
+        if (super.getRaiz().getEsquerda() == null) {
+            Nodo novaRaiz = super.getRaiz().getDireita();
             novaRaiz.setPai(null);
-            this.raiz = novaRaiz;
+            super.setRaiz(novaRaiz);
             return;
         }
 
-        Nodo pai = this.raiz;
+        Nodo pai = super.getRaiz();
         removerInicio(pai, pai.getEsquerda());
     }
 
@@ -150,7 +157,7 @@ public class ArvoreAVL {
     }
 
     public boolean buscar(int valor) {
-        return buscar(this.raiz, valor);
+        return buscar(super.getRaiz(), valor);
     }
 
     public boolean buscar(Nodo pai, int valor) {
@@ -167,7 +174,7 @@ public class ArvoreAVL {
 
     public void percorrerPreOrdem() {
         System.out.print("Pré-ordem: ");
-        percorrerPreOrdem(this.raiz);
+        percorrerPreOrdem(super.getRaiz());
         System.out.println("\n");
     }
 
@@ -181,7 +188,7 @@ public class ArvoreAVL {
 
     public void percorrerEmOrdem() {
         System.out.print("Em ordem: ");
-        percorrerEmOrdem(this.raiz);
+        percorrerEmOrdem(super.getRaiz());
         System.out.println("\n");
     }
 
@@ -195,7 +202,7 @@ public class ArvoreAVL {
 
     public void percorrerPosOrdem() {
         System.out.print("Pós-ordem: ");
-        percorrerPosOrdem(this.raiz);
+        percorrerPosOrdem(super.getRaiz());
         System.out.println("\n");
     }
 
