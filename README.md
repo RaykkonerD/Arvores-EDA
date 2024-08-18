@@ -10,11 +10,11 @@ Este repositório contém códigos desenvolvidos durante o processo de aprendiza
 - [Descrição do Projeto](#descrição-do-projeto)
 - [Estruturas de Dados Utilizadas](#estruturas-de-dados-utilizadas)
 - [Algoritmos Implementados](#algoritmos-implementados)
-- [Outros Repositório](#outros-repositórios)
+- [Outros Repositórios](#outros-repositórios)
 
 ## Descrição do Projeto
 
-Este é um dos repositórios de códigos utilizados em em atividades da disciplina de Estrutura de Dados e Algoritmos, do curso superior de ADS, no IFPB - Campus Esperança. Nos repositórios aqui listados, incluindo este, você encontrará uma coleção de códigos que abordam diferentes conceitos de estruturas de dados e algoritmos, incluindo:
+Este é um dos repositórios de códigos utilizados em atividades da disciplina de Estrutura de Dados e Algoritmos, do curso superior de ADS, no IFPB - Campus Esperança. Nos repositórios aqui listados, incluindo este, você encontrará uma coleção de códigos que abordam diferentes conceitos de Estruturas de Dados e Algoritmos, incluindo:
 
 - Listas
 - Algoritmos de busca:
