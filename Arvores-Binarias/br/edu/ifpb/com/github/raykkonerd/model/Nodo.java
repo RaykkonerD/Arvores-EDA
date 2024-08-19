@@ -1,11 +1,11 @@
+package com.github.raykkonerd.model;
 
 public class Nodo {
     private int valor;
-    private Nodo pai;
     private Nodo esquerda;
     private Nodo direita;
-    private int altura;
-
+    private Nodo pai;
+    
     public Nodo(int valor){
         this.valor = valor;
     }
@@ -20,14 +20,6 @@ public class Nodo {
 
     public void setPai(Nodo pai){
         this.pai = pai;
-    }
-
-    public int getAltura(){
-        return this.altura;
-    }
-
-    public void setAltura(int altura){
-        this.altura = altura;
     }
 
     public Nodo getEsquerda(){

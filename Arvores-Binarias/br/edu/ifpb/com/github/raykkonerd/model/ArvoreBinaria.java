@@ -1,3 +1,5 @@
+package com.github.raykkonerd.model;
+
 public class ArvoreBinaria {
     private Nodo raiz;
 
@@ -145,6 +147,20 @@ public class ArvoreBinaria {
             percorrerPosOrdem(nodo.getEsquerda());
             percorrerPosOrdem(nodo.getDireita());
             System.out.print(nodo.getValor() + " ");
+        }
+    }
+
+    public void imprimir() {
+        imprimirRecursivo(this.getRaiz(), "", true);
+    }
+
+    private void imprimirRecursivo(Nodo nodo, String prefixo, boolean ehUltimo) {
+        if (nodo != null) {
+            System.out.print(prefixo);
+            System.out.print(ehUltimo ? "└── " : "├── ");
+            System.out.println(nodo.getValor());
+            imprimirRecursivo(nodo.getDireita(), prefixo + (ehUltimo ? "    " : "│   "), false);
+            imprimirRecursivo(nodo.getEsquerda(), prefixo + (ehUltimo ? "    " : "│   "), true);
         }
     }
 }
