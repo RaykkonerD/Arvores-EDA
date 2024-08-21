@@ -29,11 +29,15 @@ public class ArvoreAVL extends ArvoreBinaria {
                 rotacaoADireita(nodo);
             } else if (fatorDeBalanceamento == 2 && fatorDeBalanceamentoEsquerda == -1) {
                 // Rotação dupla à esquerda/direita
+                rotacaoAEsquerda(nodo.getEsquerda());
+                rotacaoADireita(nodo);
             } else if (fatorDeBalanceamento == -2 && fatorDeBalanceamentoDireita == -1) {
                 // Rotação simples à esquerda
                 rotacaoAEsquerda(nodo);
             } else if (fatorDeBalanceamento == -2 && fatorDeBalanceamentoDireita == 1) {
                 // Rotação dupla à direita/esquerda
+                rotacaoADireita(nodo.getDireita());
+                rotacaoAEsquerda(nodo);
             }
 
             return fatorDeBalanceamento;
@@ -57,9 +61,13 @@ public class ArvoreAVL extends ArvoreBinaria {
             super.getRaiz().setDireita(nodo);
         } else {
             nodo.getEsquerda().setPai(nodo.getPai());
-            nodo.getPai().setEsquerda(nodo.getEsquerda());
+            if(nodo.getPai().getEsquerda() == nodo){
+                nodo.getPai().setEsquerda(nodo.getEsquerda());
+            } else {
+                nodo.getPai().setDireita(nodo.getEsquerda());
+            }
+            nodo.setPai(nodo.getEsquerda());
             nodo.setEsquerda(nodo.getEsquerda().getDireita());
-            nodo.setPai(nodo.getPai().getEsquerda());
             nodo.getPai().setDireita(nodo);
         }
     }
@@ -79,9 +87,13 @@ public class ArvoreAVL extends ArvoreBinaria {
             super.getRaiz().setEsquerda(nodo);
         } else {
             nodo.getDireita().setPai(nodo.getPai());
-            nodo.getPai().setDireita(nodo.getDireita());
+            if(nodo.getPai().getDireita() == nodo){
+                nodo.getPai().setDireita(nodo.getDireita());
+            } else {
+                nodo.getPai().setEsquerda(nodo.getDireita());
+            }
+            nodo.setPai(nodo.getDireita());
             nodo.setDireita(nodo.getDireita().getEsquerda());
-            nodo.setPai(nodo.getPai().getDireita());
             nodo.getPai().setEsquerda(nodo);
         }
     }
@@ -93,16 +105,7 @@ public class ArvoreAVL extends ArvoreBinaria {
         } else if (!buscar(valor)) {
             Nodo novoNodo = new Nodo(valor);
             inserir(novoNodo, super.getRaiz());
-
-            System.out.println("::: Inserção :::");
-            ApresentaArvore.execute(this);
-            System.out.println();
-
             calcularFatorDeBalanceamento(super.getRaiz());
-
-            System.out.println("::: Balanceamento :::");
-            ApresentaArvore.execute(this);
-            System.out.println();
         }
     }
 

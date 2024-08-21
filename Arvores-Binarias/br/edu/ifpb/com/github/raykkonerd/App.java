@@ -2,10 +2,11 @@ package com.github.raykkonerd;
 
 import com.github.raykkonerd.model.ArvoreAVL;
 import com.github.raykkonerd.model.ArvoreBinaria;
+import com.github.raykkonerd.model.Nodo;
 import com.github.raykkonerd.util.ApresentaArvore;
 
 public class App {
-    public static void testesArvoreBinaria(){
+    public static void testesArvoreBinaria() {
         ArvoreBinaria arvore = new ArvoreBinaria(10);
 
         // Inserção
@@ -26,7 +27,7 @@ public class App {
         arvore.removerUltimo();
         arvore.removerInicio();
         arvore.removerInicio();
-        
+
         // Apresentação
         System.out.println();
         ApresentaArvore.execute(arvore);
@@ -45,51 +46,125 @@ public class App {
         System.out.println("30 " + (arvore.buscar(30) ? "está" : "não está") + " na árvore!");
     }
 
-    public static void main(String[] args) {
+    public static void testesArvoreAVL(int tipo) {
         ArvoreAVL arvore = new ArvoreAVL(10);
 
-        // Rotação Simples à Direita
-            arvore.inserir(5);
-            arvore.inserir(3);
+        switch (tipo) {
+            case 1:
+                System.out.println("### Rotação Simples à Direita ###");
+                arvore.inserir(5);
+                arvore.inserir(3);
 
-            // Apresentação
-            ApresentaArvore.execute(arvore);
-        
-            // Limpando filhos
-            arvore.removerInicio();
-            arvore.removerInicio();
+                // Apresentação
+                System.out.println("  ->  Na raiz");
+                System.out.println("  Ordem de inserção: 10, 5, 3.");
+                ApresentaArvore.execute(arvore);
 
-        // Rotação Simples à Esquerda
-            arvore.inserir(15);
-            arvore.inserir(20);
+                arvore.setRaiz(new Nodo(10));
+                arvore.inserir(11);
+                arvore.inserir(5);
+                arvore.inserir(3);
+                arvore.inserir(2);
 
-            // Apresentação
-            ApresentaArvore.execute(arvore);
-            
-            // Limpando filhos
-            arvore.removerUltimo();
-            arvore.removerUltimo();
+                // Apresentação
+                System.out.println("  ->  Fora da raiz");
+                System.out.println("  Ordem de inserção: 10, 11, 5, 3, 2.");
+                ApresentaArvore.execute(arvore);
 
-        // Rotação Dupla Esquerda/Direita
-            arvore.inserir(15);
-            arvore.inserir(12);
+                // Limpando filhos
+                arvore.removerInicio();
+                arvore.removerInicio();
+                arvore.removerInicio();
+                arvore.removerUltimo();
 
-            // Apresentação
-            ApresentaArvore.execute(arvore);
-            
-            // Limpando filhos
-            arvore.removerUltimo();
-            arvore.removerUltimo();
+                break;
 
-        // Rotação Dupla Direita/Esquerda
-            arvore.inserir(5);
-            arvore.inserir(7);
+            case 2:
+                System.out.println("### Rotação Simples à Esquerda ###");
+                arvore.inserir(15);
+                arvore.inserir(20);
 
-            // Apresentação
-            ApresentaArvore.execute(arvore);
-            
-            // Limpando filhos
-            arvore.removerUltimo();
-            arvore.removerUltimo();
+                // Apresentação
+                System.out.println("  ->  Na raiz");
+                System.out.println("  Ordem de inserção: 10, 15, 20.");
+                ApresentaArvore.execute(arvore);
+
+                arvore.setRaiz(new Nodo(10));
+                arvore.inserir(5);
+                arvore.inserir(15);
+                arvore.inserir(20);
+                arvore.inserir(26);
+
+                // Apresentação
+                System.out.println("  ->  Fora da raiz");
+                System.out.println("  Ordem de inserção: 10, 5, 15, 20, 26.");
+                ApresentaArvore.execute(arvore);
+
+                // Limpando filhos
+                arvore.removerInicio();
+                arvore.removerUltimo();
+                arvore.removerUltimo();
+                arvore.removerUltimo();
+
+                break;
+
+            case 3:
+                System.out.println("### Rotação Dupla Esquerda/Direita ###");
+                arvore.inserir(15);
+                arvore.inserir(12);
+
+                // Apresentação
+                System.out.println("  ->  Na raiz");
+                System.out.println("  Ordem de inserção: 10, 15, 12.");
+                ApresentaArvore.execute(arvore);
+
+                arvore.setRaiz(new Nodo(10));
+                arvore.inserir(3);
+                arvore.inserir(12);
+                arvore.inserir(32);
+                arvore.inserir(21);
+
+                // Apresentação
+                System.out.println("  ->  Fora da raiz");
+                System.out.println("  Ordem de inserção: 10, 3, 12, 32, 21.");
+                ApresentaArvore.execute(arvore);
+
+                // Limpando filhos
+                arvore.removerUltimo();
+                arvore.removerUltimo();
+
+                break;
+
+            case 4:
+                System.out.println("### Rotação Dupla Direita/Esquerda ###");
+                arvore.inserir(5);
+                arvore.inserir(7);
+
+                // Apresentação
+                System.out.println("  ->  Na raiz");
+                System.out.println("  Ordem de inserção: 10, 5, 7.");
+                ApresentaArvore.execute(arvore);
+
+                arvore.setRaiz(new Nodo(10));
+                arvore.inserir(18);
+                arvore.inserir(7);
+                arvore.inserir(2);
+                arvore.inserir(4);
+
+                // Apresentação
+                System.out.println("  ->  Fora da raiz");
+                System.out.println("  Ordem de inserção: 10, 18, 7, 2, 4.");
+                ApresentaArvore.execute(arvore);
+
+                // Limpando filhos
+                arvore.removerUltimo();
+                arvore.removerUltimo();
+
+                break;
+        }
+    }
+
+    public static void main(String[] args) {
+        testesArvoreAVL(4);
     }
 }
