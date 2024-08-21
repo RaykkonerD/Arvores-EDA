@@ -145,6 +145,7 @@ public class ArvoreAVL extends ArvoreBinaria {
 
         Nodo pai = super.getRaiz();
         removerUltimo(pai, pai.getDireita());
+        calcularFatorDeBalanceamento(super.getRaiz());
     }
 
     @Override
@@ -176,6 +177,7 @@ public class ArvoreAVL extends ArvoreBinaria {
 
         Nodo pai = super.getRaiz();
         removerInicio(pai, pai.getEsquerda());
+        calcularFatorDeBalanceamento(super.getRaiz());
     }
 
     @Override
