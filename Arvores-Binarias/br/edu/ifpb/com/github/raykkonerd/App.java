@@ -165,6 +165,20 @@ public class App {
     }
 
     public static void main(String[] args) {
-        testesArvoreAVL(4);
+        // testesArvoreAVL(4);
+        ArvoreAVL arvore = new ArvoreAVL(20);
+
+        arvore.inserir(15);
+        arvore.inserir(25);
+        arvore.inserir(17);
+        arvore.inserir(23);
+        arvore.inserir(14);
+        arvore.inserir(28);
+        arvore.inserir(16);
+        arvore.inserir(21);
+        arvore.remover(25);
+        arvore.remover(15);
+
+        ApresentaArvore.execute(arvore);
     }
 }

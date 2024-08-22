@@ -37,4 +37,8 @@ public class Nodo {
     public void setDireita(Nodo direita){
         this.direita = direita;
     }
+
+    public void setValor(int valor) {
+        this.valor = valor;
+    }
 }

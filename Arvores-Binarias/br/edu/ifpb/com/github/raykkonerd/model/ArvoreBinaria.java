@@ -42,44 +42,45 @@ public class ArvoreBinaria {
         }
     }
 
-    public void removerUltimo() {
+    public boolean removerUltimo() {
         if (this.raiz == null) {
-            return;
+            return false;
         }
 
         if (this.raiz.getDireita() == null) {
             Nodo novaRaiz = this.raiz.getEsquerda();
             this.raiz = novaRaiz;
-            return;
+            return true;
         }
 
         Nodo pai = this.raiz;
         removerUltimo(pai, pai.getDireita());
+        return true;
     }
 
     public void removerUltimo(Nodo pai, Nodo atual) {
         if (atual.getDireita() == null) {
             Nodo novoUltimo = atual.getEsquerda();
             pai.setDireita(novoUltimo);
-            return;
         }
 
         removerUltimo(atual, atual.getDireita());
     }
 
-    public void removerInicio() {
+    public boolean removerInicio() {
         if (this.raiz == null) {
-            return;
+            return false;
         }
 
         if (this.raiz.getEsquerda() == null) {
             Nodo novaRaiz = this.raiz.getDireita();
             this.raiz = novaRaiz;
-            return;
+            return true;
         }
 
         Nodo pai = this.raiz;
         removerInicio(pai, pai.getEsquerda());
+        return true;
     }
 
     public void removerInicio(Nodo pai, Nodo atual) {
@@ -90,6 +91,22 @@ public class ArvoreBinaria {
         }
 
         removerInicio(atual, atual.getEsquerda());
+    }
+
+    public Nodo getMenor(Nodo nodo){
+        if(nodo.getEsquerda() == null){
+            return nodo;
+        }
+
+        return getMenor(nodo.getEsquerda());
+    }
+
+    public Nodo getMaior(Nodo nodo){
+        if(nodo.getDireita() == null){
+            return nodo;
+        }
+
+        return getMaior(nodo.getDireita());
     }
 
     public boolean buscar(int valor) {
