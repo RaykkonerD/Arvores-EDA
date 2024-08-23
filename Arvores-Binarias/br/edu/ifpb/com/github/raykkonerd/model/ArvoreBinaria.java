@@ -1,5 +1,7 @@
 package com.github.raykkonerd.model;
 
+import java.lang.Math;
+
 public class ArvoreBinaria {
     private Nodo raiz;
 
@@ -15,6 +17,18 @@ public class ArvoreBinaria {
         this.raiz = raiz;
     }
 
+    public int calcularAltura() {
+        return calcularAltura(this.raiz);
+    }
+
+    protected int calcularAltura(Nodo nodo) {
+        if (nodo == null) {
+            return -1;
+        }
+
+        return Math.max(calcularAltura(nodo.getEsquerda()), calcularAltura(nodo.getDireita())) + 1;
+    }
+
     public void inserir(int valor) {
         if (this.raiz == null) {
             this.raiz = new Nodo(valor);
@@ -24,7 +38,7 @@ public class ArvoreBinaria {
         }
     }
 
-    public void inserir(Nodo novoNodo, Nodo pai) {
+    protected void inserir(Nodo novoNodo, Nodo pai) {
         if (novoNodo.getValor() < pai.getValor()) {
             if (pai.getEsquerda() == null) {
                 pai.setEsquerda(novoNodo);
@@ -58,10 +72,11 @@ public class ArvoreBinaria {
         return true;
     }
 
-    public void removerUltimo(Nodo pai, Nodo atual) {
+    protected void removerUltimo(Nodo pai, Nodo atual) {
         if (atual.getDireita() == null) {
             Nodo novoUltimo = atual.getEsquerda();
             pai.setDireita(novoUltimo);
+            return ;
         }
 
         removerUltimo(atual, atual.getDireita());
@@ -83,17 +98,25 @@ public class ArvoreBinaria {
         return true;
     }
 
-    public void removerInicio(Nodo pai, Nodo atual) {
+    protected void removerInicio(Nodo pai, Nodo atual) {
         if (atual.getEsquerda() == null) {
             Nodo novoInicio = atual.getDireita();
             pai.setEsquerda(novoInicio);
-            return;
+            return ;
         }
 
         removerInicio(atual, atual.getEsquerda());
     }
 
-    public Nodo getMenor(Nodo nodo){
+    public Nodo getMenor(){
+        return getMaior(this.raiz);
+    }
+
+    protected Nodo getMenor(Nodo nodo){
+        if(nodo == null){
+            return null;
+        }
+
         if(nodo.getEsquerda() == null){
             return nodo;
         }
@@ -101,7 +124,15 @@ public class ArvoreBinaria {
         return getMenor(nodo.getEsquerda());
     }
 
-    public Nodo getMaior(Nodo nodo){
+    public Nodo getMaior(){
+        return getMaior(this.raiz);
+    }
+
+    protected Nodo getMaior(Nodo nodo){
+        if(nodo == null){
+            return null;
+        }
+        
         if(nodo.getDireita() == null){
             return nodo;
         }
@@ -113,7 +144,7 @@ public class ArvoreBinaria {
         return buscar(this.raiz, valor);
     }
 
-    public boolean buscar(Nodo pai, int valor) {
+    protected boolean buscar(Nodo pai, int valor) {
         if (pai == null) {
             return false;
         } else if (valor < pai.getValor()) {
@@ -131,7 +162,7 @@ public class ArvoreBinaria {
         System.out.println("\n");
     }
 
-    public void percorrerPreOrdem(Nodo nodo) {
+    protected void percorrerPreOrdem(Nodo nodo) {
         if (nodo != null) {
             System.out.print(nodo.getValor() + " ");
             percorrerPreOrdem(nodo.getEsquerda());
@@ -145,7 +176,7 @@ public class ArvoreBinaria {
         System.out.println("\n");
     }
 
-    public void percorrerEmOrdem(Nodo nodo) {
+    protected void percorrerEmOrdem(Nodo nodo) {
         if (nodo != null) {
             percorrerEmOrdem(nodo.getEsquerda());
             System.out.print(nodo.getValor() + " ");
@@ -159,7 +190,7 @@ public class ArvoreBinaria {
         System.out.println("\n");
     }
 
-    public void percorrerPosOrdem(Nodo nodo) {
+    protected void percorrerPosOrdem(Nodo nodo) {
         if (nodo != null) {
             percorrerPosOrdem(nodo.getEsquerda());
             percorrerPosOrdem(nodo.getDireita());
@@ -171,7 +202,7 @@ public class ArvoreBinaria {
         imprimirRecursivo(this.getRaiz(), "", true);
     }
 
-    private void imprimirRecursivo(Nodo nodo, String prefixo, boolean ehUltimo) {
+    protected void imprimirRecursivo(Nodo nodo, String prefixo, boolean ehUltimo) {
         if (nodo != null) {
             System.out.print(prefixo);
             System.out.print(ehUltimo ? "└── " : "├── ");
