@@ -63,7 +63,7 @@ Este é um dos repositórios de códigos utilizados em atividades da disciplina 
   - Remoção (com e sem o índice)
   - Busca
   - Redimensionamento
-- **Algoritmos de árvores binárias: (Presente neste repositório)**
+- **Algoritmos de Árvores Binárias: (Presente neste repositório)**
   - **Inserção**
   - **Remoção (Início e Último)**
   - **Busca**
@@ -71,9 +71,9 @@ Este é um dos repositórios de códigos utilizados em atividades da disciplina 
     - **Pré-ordem**
     - **Em ordem**
     - **Pós-ordem**
-- **Algoritmos de árvores AVL: (Presente neste repositório)**
+- **Algoritmos de Árvores AVL: (Presente neste repositório)**
   - **Inserção**
-  - **Remoção (Início e Último)**
+  - **Remoção (Início, meio e último)**
   - **Busca**
   - **Rotações**
     - **Rotação Simples à Direita**
@@ -81,6 +81,10 @@ Este é um dos repositórios de códigos utilizados em atividades da disciplina 
     - **Rotação Dupla à Direita**
     - **Rotação Dupla à Esquerda**
   - **Cálculo do Fator de Balanceamento**
+- **Algoritmos de Árvores B: (Presente neste repositório)**
+  - **Inserção**
+  - **Remoção**
+  - **Busca**
 
 ## Outros Repositórios
 

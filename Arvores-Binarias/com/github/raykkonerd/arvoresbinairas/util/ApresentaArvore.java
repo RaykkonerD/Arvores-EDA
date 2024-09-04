@@ -1,10 +1,10 @@
-package com.github.raykkonerd.util;
+package com.github.raykkonerd.arvoresbinairas.util;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.raykkonerd.model.ArvoreBinaria;
-import com.github.raykkonerd.model.Nodo;
+import com.github.raykkonerd.arvoresbinairas.model.ArvoreBinaria;
+import com.github.raykkonerd.arvoresbinairas.model.Nodo;
 
 public class ApresentaArvore {
     public static void execute(ArvoreBinaria arvore) {

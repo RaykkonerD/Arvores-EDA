@@ -1,8 +1,8 @@
-package com.github.raykkonerd.model;
+package com.github.raykkonerd.arvoresbinairas.model;
 
 import java.lang.Math;
 
-import com.github.raykkonerd.util.ApresentaArvore;
+import com.github.raykkonerd.arvoresbinairas.util.ApresentaArvore;
 
 public class ArvoreAVL extends ArvoreBinaria {
     public ArvoreAVL(int raiz) {

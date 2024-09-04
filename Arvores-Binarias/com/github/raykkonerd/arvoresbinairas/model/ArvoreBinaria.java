@@ -1,4 +1,4 @@
-package com.github.raykkonerd.model;
+package com.github.raykkonerd.arvoresbinairas.model;
 
 public class ArvoreBinaria {
     private Nodo raiz;

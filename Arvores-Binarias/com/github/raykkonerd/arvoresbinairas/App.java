@@ -1,9 +1,9 @@
-package com.github.raykkonerd;
+package com.github.raykkonerd.arvoresbinairas;
 
-import com.github.raykkonerd.model.ArvoreAVL;
-import com.github.raykkonerd.model.ArvoreBinaria;
-import com.github.raykkonerd.model.Nodo;
-import com.github.raykkonerd.util.ApresentaArvore;
+import com.github.raykkonerd.arvoresbinairas.model.ArvoreAVL;
+import com.github.raykkonerd.arvoresbinairas.model.ArvoreBinaria;
+import com.github.raykkonerd.arvoresbinairas.model.Nodo;
+import com.github.raykkonerd.arvoresbinairas.util.ApresentaArvore;
 
 public class App {
     public static void testesArvoreBinaria() {
