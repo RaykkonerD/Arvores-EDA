@@ -1,7 +1,5 @@
 package com.github.raykkonerd.arvoresbinairas.model;
 
-import java.util.List;
-
 public class Nodo {
     private int valor;
     private Nodo esquerda;

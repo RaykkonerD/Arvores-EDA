@@ -49,8 +49,6 @@ public class App {
     public static void testesArvoreAVL(int tipo) {
         ArvoreAVL arvore = new ArvoreAVL(10);
 
-        System.out.println();
-
         switch (tipo) {
             case 1:
                 System.out.println("### Rotação Simples à Direita ###");
@@ -163,69 +161,24 @@ public class App {
                 arvore.removerUltimo();
 
                 break;
-            case 5:
-                System.out.println("### Remoção no Meio da Árvore ###");
-                arvore.setRaiz(new Nodo(20));
-
-                arvore.inserir(15);
-                arvore.inserir(25);
-                arvore.inserir(18);
-                arvore.inserir(23);
-                arvore.inserir(10);
-                arvore.inserir(28);
-                arvore.inserir(16);
-                arvore.inserir(21);
-                arvore.inserir(12);
-                arvore.inserir(19);
-                arvore.inserir(6);
-                arvore.inserir(11);
-
-                // Apresentação
-                System.out.println("  ->  Antes da remoção");
-                ApresentaArvore.execute(arvore);
-
-                // Remoção
-                arvore.remover(25);
-
-                // Apresentação
-                System.out.println("  ->  Depois da remoção");
-                ApresentaArvore.execute(arvore);
-
-                arvore.setRaiz(new Nodo(20));
-                arvore.inserir(15);
-                arvore.inserir(25);
-                arvore.inserir(18);
-                arvore.inserir(23);
-                arvore.inserir(10);
-                arvore.inserir(28);
-                arvore.inserir(16);
-                arvore.inserir(21);
-                arvore.inserir(12);
-                arvore.inserir(19);
-                arvore.inserir(6);
-                arvore.inserir(11);
-
-                // Apresentação
-                System.out.println("  ->  Antes da remoção");
-                ApresentaArvore.execute(arvore);
-
-                // Remoção
-                arvore.remover(15);
-
-                // Apresentação
-                System.out.println("  ->  Depois da remoção");
-                ApresentaArvore.execute(arvore);
-
-                break;
-            default:
-                System.out.println("[ERRO]: A opção de teste passada é invália!");
-
-                break;
         }
     }
 
     public static void main(String[] args) {
-        // testesArvoreBinaria();
-        testesArvoreAVL(5);
+        // testesArvoreAVL(4);
+        ArvoreAVL arvore = new ArvoreAVL(20);
+
+        arvore.inserir(15);
+        arvore.inserir(25);
+        arvore.inserir(17);
+        arvore.inserir(23);
+        arvore.inserir(14);
+        arvore.inserir(28);
+        arvore.inserir(16);
+        arvore.inserir(21);
+        arvore.remover(25);
+        arvore.remover(15);
+
+        ApresentaArvore.execute(arvore);
     }
 }

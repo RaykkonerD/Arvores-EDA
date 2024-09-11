@@ -2,7 +2,7 @@ package com.github.raykkonerd.arvoresb.model;
 
 import java.util.List;
 
-public class ArvoreB {
+public class ArvoreB { 
     private Nodo raiz;
     private int ordem;
 

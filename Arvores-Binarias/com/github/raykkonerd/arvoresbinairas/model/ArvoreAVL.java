@@ -2,19 +2,24 @@ package com.github.raykkonerd.arvoresbinairas.model;
 
 import java.lang.Math;
 
-import com.github.raykkonerd.arvoresbinairas.util.ApresentaArvore;
-
 public class ArvoreAVL extends ArvoreBinaria {
     public ArvoreAVL(int raiz) {
         super(raiz);
     }
 
-    private int calcularFatorDeBalanceamento(Nodo nodo) {
+    public int calcularAltura(Nodo nodo) {
+        if (nodo == null) {
+            return -1;
+        }
+        return Math.max(calcularAltura(nodo.getEsquerda()), calcularAltura(nodo.getDireita())) + 1;
+    }
+
+    public int calcularFatorDeBalanceamento(Nodo nodo) {
         if (nodo != null) {
             int fatorDeBalanceamentoEsquerda = calcularFatorDeBalanceamento(nodo.getEsquerda());
             int fatorDeBalanceamentoDireita = calcularFatorDeBalanceamento(nodo.getDireita());
-            int alturaEsquerda = super.calcularAltura(nodo.getEsquerda());
-            int alturaDireita = super.calcularAltura(nodo.getDireita());
+            int alturaEsquerda = calcularAltura(nodo.getEsquerda());
+            int alturaDireita = calcularAltura(nodo.getDireita());
             int fatorDeBalanceamento = alturaEsquerda - alturaDireita;
 
             if (fatorDeBalanceamento == 2 && fatorDeBalanceamentoEsquerda == 1) {
@@ -39,7 +44,7 @@ public class ArvoreAVL extends ArvoreBinaria {
         }
     }
 
-    private void rotacaoADireita(Nodo nodo) {
+    public void rotacaoADireita(Nodo nodo) {
         if (super.getRaiz() == nodo) {
             super.setRaiz(nodo.getEsquerda());
             super.getRaiz().setPai(null);
@@ -54,7 +59,7 @@ public class ArvoreAVL extends ArvoreBinaria {
             super.getRaiz().setDireita(nodo);
         } else {
             nodo.getEsquerda().setPai(nodo.getPai());
-            if (nodo.getPai().getEsquerda() == nodo) {
+            if(nodo.getPai().getEsquerda() == nodo){
                 nodo.getPai().setEsquerda(nodo.getEsquerda());
             } else {
                 nodo.getPai().setDireita(nodo.getEsquerda());
@@ -65,7 +70,7 @@ public class ArvoreAVL extends ArvoreBinaria {
         }
     }
 
-    private void rotacaoAEsquerda(Nodo nodo) {
+    public void rotacaoAEsquerda(Nodo nodo) {
         if (super.getRaiz() == nodo) {
             super.setRaiz(nodo.getDireita());
             super.getRaiz().setPai(null);
@@ -80,7 +85,7 @@ public class ArvoreAVL extends ArvoreBinaria {
             super.getRaiz().setEsquerda(nodo);
         } else {
             nodo.getDireita().setPai(nodo.getPai());
-            if (nodo.getPai().getDireita() == nodo) {
+            if(nodo.getPai().getDireita() == nodo){
                 nodo.getPai().setDireita(nodo.getDireita());
             } else {
                 nodo.getPai().setEsquerda(nodo.getDireita());
@@ -103,7 +108,7 @@ public class ArvoreAVL extends ArvoreBinaria {
     }
 
     @Override
-    protected void inserir(Nodo novoNodo, Nodo pai) {
+    public void inserir(Nodo novoNodo, Nodo pai) {
         if (novoNodo.getValor() < pai.getValor()) {
             if (pai.getEsquerda() == null) {
                 pai.setEsquerda(novoNodo);
@@ -143,10 +148,10 @@ public class ArvoreAVL extends ArvoreBinaria {
     }
 
     @Override
-    protected void removerUltimo(Nodo pai, Nodo atual) {
+    public void removerUltimo(Nodo pai, Nodo atual) {
         if (atual.getDireita() == null) {
             Nodo novoUltimo = atual.getEsquerda();
-            if (novoUltimo != null) {
+            if(novoUltimo != null){
                 novoUltimo.setPai(pai);
             }
             pai.setDireita(novoUltimo);
@@ -163,7 +168,7 @@ public class ArvoreAVL extends ArvoreBinaria {
         }
 
         if (super.getRaiz().getEsquerda() == null) {
-            Nodo novaRaiz = super.getRaiz().getDireita();
+            Nodo novaRaiz =  super.getRaiz().getDireita();
             novaRaiz.setPai(null);
             super.setRaiz(novaRaiz);
             return true;
@@ -176,10 +181,10 @@ public class ArvoreAVL extends ArvoreBinaria {
     }
 
     @Override
-    protected void removerInicio(Nodo pai, Nodo atual) {
+    public void removerInicio(Nodo pai, Nodo atual) {
         if (atual.getEsquerda() == null) {
             Nodo novoInicio = atual.getDireita();
-            if (novoInicio != null) {
+            if(novoInicio != null){
                 novoInicio.setPai(pai);
             }
             pai.setEsquerda(novoInicio);
@@ -189,8 +194,8 @@ public class ArvoreAVL extends ArvoreBinaria {
         removerInicio(atual, atual.getEsquerda());
     }
 
-    public boolean remover(int valor) {
-        if (!buscar(valor)) {
+    public boolean remover(int valor){
+        if(!buscar(valor)){
             return false;
         }
 
@@ -198,43 +203,29 @@ public class ArvoreAVL extends ArvoreBinaria {
         return true;
     }
 
-    private void removerNodoComUmFilho(Nodo nodo, Nodo filho) {
-        if (nodo == nodo.getPai().getEsquerda()) {
-            nodo.getPai().setEsquerda(filho);
-        } else {
-            nodo.getPai().setDireita(filho);
-        }
-
-        filho.setPai(nodo.getPai());
-        calcularFatorDeBalanceamento(super.getRaiz());
-    }
-
-    private void removerNodoComDoisFilhos(Nodo nodo) {
-        Nodo substituto = super.getMaior(nodo.getEsquerda());
-        nodo.setValor(substituto.getValor());
-        removerNodoComUmFilho(substituto, substituto.getEsquerda());
-    }
-
-    private void remover(Nodo nodo, int valor) {
-        if (nodo.getValor() == valor) {
-            if (nodo.getEsquerda() == null && nodo.getDireita() == null) {
-                if (nodo == nodo.getPai().getEsquerda()) {
-                    removerInicio(nodo.getPai(), nodo);
-                } else {
-                    removerUltimo(nodo.getPai(), nodo);
+    public void remover(Nodo nodo, int valor){
+        if(nodo.getValor() == valor){
+            if(nodo.getEsquerda() != null){
+                Nodo substituto = getMaior(nodo.getEsquerda());
+                nodo.setValor(substituto.getValor());
+                if(substituto.getEsquerda() != null){
+                    substituto.getPai().setEsquerda(substituto.getEsquerda());
                 }
-            } else if (nodo.getEsquerda() != null && nodo.getDireita() == null) {
-                removerNodoComUmFilho(nodo, nodo.getEsquerda());
-            } else if (nodo.getEsquerda() == null && nodo.getDireita() != null) {
-                removerNodoComUmFilho(nodo, nodo.getDireita());
-            } else {
-                removerNodoComDoisFilhos(nodo);
+                calcularFatorDeBalanceamento(super.getRaiz());
+                return ;
             }
-
-            return ;
+            if(nodo.getDireita() != null){
+                Nodo substituto = getMenor(nodo.getDireita());
+                nodo.setValor(substituto.getValor());
+                if(substituto.getDireita() != null){
+                    substituto.getPai().setDireita(substituto.getDireita());
+                }
+                calcularFatorDeBalanceamento(super.getRaiz());
+                return ;
+            }
         }
 
-        if (valor < nodo.getValor()) {
+        if(valor < nodo.getValor()){
             remover(nodo.getEsquerda(), valor);
         } else {
             remover(nodo.getDireita(), valor);

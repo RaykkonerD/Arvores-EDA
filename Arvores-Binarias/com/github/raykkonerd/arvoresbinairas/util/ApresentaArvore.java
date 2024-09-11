@@ -105,6 +105,5 @@ public class ApresentaArvore {
             larguraDoNivel /= 2;
         }
         System.out.println();
-    }
-    
+    }   
 }
