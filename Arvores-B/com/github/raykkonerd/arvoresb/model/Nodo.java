@@ -1,73 +1,39 @@
 package com.github.raykkonerd.arvoresb.model;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
 public class Nodo implements Cloneable {
-    private Integer[] chaves;
-    private Nodo[] filhos;
+    private List<Chave> chaves;
     private Nodo pai;
     private boolean ehFolha;
 
-    public Nodo(int nFilhos) {
-        this.chaves = new Integer[nFilhos];
-        this.filhos = new Nodo[nFilhos + 1];
+    public Nodo() {
+        this.chaves = new ArrayList<>();
         this.ehFolha = true;
     }
 
-    public Integer[] getChaves() {
+    public List<Chave> getChaves() {
         return this.chaves;
     }
 
-    public void setChaves(Integer[] chaves) {
+    public void setChaves(List<Chave> chaves) {
         this.chaves = chaves;
     }
 
-    public void adicionaChave(Integer valor) {
-        this.chaves[this.chaves.length - 1] = valor;
-
-        for (int i = 1; i < this.chaves.length; i++) {
-            for (int j = 0; j < i; j++) {
-                if (this.chaves[i] != null) {
-                    if (this.chaves[j] == null || this.chaves[i] < this.chaves[j]) {
-                        Integer temp = this.chaves[i];
-                        this.chaves[i] = this.chaves[j];
-                        this.chaves[j] = temp;
-                    }
-                }
-            }
+    public void adicionaChave(Chave chave) {
+        List<Chave> chavesCopy = new ArrayList<>(this.chaves);
+        chavesCopy.add(chave);
+        chavesCopy.sort((c1, c2) -> Integer.compare(c1.getValor(), c2.getValor()));
+        int chaveIndex = chavesCopy.indexOf(chave);
+        if(chaveIndex > 0){
+            chavesCopy.get(chaveIndex - 1).setFilhoADireita(chave.getFilhoAEsquerda());
         }
-    }
-
-    public void adicionaFilho(Nodo nodo) {
-        for (int i = 0; i < this.chaves.length; i++) {
-            if (this.chaves[i] != null) {
-                if ((i == 0 && nodo.getChaves()[0] < this.chaves[i])
-                        || (i > 0 && nodo.getChaves()[0] > this.chaves[i - 1] && nodo.getChaves()[0] < this.chaves[i])) {
-                    this.filhos[i] = nodo;
-                } else if (i == this.chaves.length - 1 && nodo.getChaves()[0] > this.chaves[i]) {
-                    this.filhos[i + 1] = nodo;
-                }
-            } else if(this.chaves[i-1] != null){
-                if(i > 0 && nodo.getChaves()[0] > this.chaves[i-1]){
-                    this.filhos[i] = nodo;
-                }
-            }
+        if(chaveIndex < chavesCopy.size() - 1){
+            chavesCopy.get(chaveIndex + 1).setFilhoAEsquerda(chave.getFilhoADireita());
         }
-    }
-
-    public void removeFilho(Nodo nodo){
-        for (int i = 0; i < this.filhos.length - 1; i++) {
-            if (this.filhos[i] == nodo) {
-                this.filhos[i] = null;
-                break;
-            }
-        }
-    }
-
-    public Nodo[] getFilhos() {
-        return this.filhos;
-    }
-
-    public void setFilhos(Nodo[] filhos) {
-        this.filhos = filhos;
+        this.chaves = chavesCopy;
     }
 
     public Nodo getPai() {
@@ -88,9 +54,8 @@ public class Nodo implements Cloneable {
 
     @Override
     public Nodo clone(){
-        Nodo novoNodo = new Nodo(this.filhos.length);
+        Nodo novoNodo = new Nodo();
         novoNodo.setChaves(this.chaves);
-        novoNodo.setFilhos(this.filhos);
         novoNodo.setEhFolha(this.ehFolha);
         novoNodo.setPai(this.pai);
         return novoNodo;

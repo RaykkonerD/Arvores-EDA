@@ -1,7 +1,6 @@
 package com.github.raykkonerd.arvoresb.model;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
 public class ArvoreB {
     private Nodo raiz;
@@ -9,8 +8,9 @@ public class ArvoreB {
 
     public ArvoreB(int ordem, int raiz) {
         this.ordem = ordem;
-        this.raiz = new Nodo(ordem);
-        this.raiz.adicionaChave(raiz);
+        this.raiz = new Nodo();
+        Chave novaChave = new Chave(raiz);
+        this.raiz.adicionaChave(novaChave);
     }
 
     public Nodo getRaiz() {
@@ -31,8 +31,9 @@ public class ArvoreB {
 
     public void inserir(int valor) {
         if (this.raiz == null) {
-            this.raiz = new Nodo(this.ordem);
-            this.raiz.adicionaChave(valor);
+            this.raiz = new Nodo();
+            Chave novaChave = new Chave(valor);
+            this.raiz.adicionaChave(novaChave);
             return;
         }
         inserir(this.raiz, valor);
@@ -40,84 +41,107 @@ public class ArvoreB {
 
     public void inserir(Nodo nodo, int valor) {
         if (nodo.getEhFolha()) {
-            for (int i = 0; i < nodo.getChaves().length - 1; i ++) {
-                if (nodo.getChaves()[i] == null) {
-                    nodo.adicionaChave(valor);
-                    return;
-                }
+            Chave novaChave = new Chave(valor);
+            if (nodo.getChaves().size() < this.ordem - 1) {
+                nodo.adicionaChave(novaChave);
+                return;
             }
-            split(nodo, valor);
+            split(nodo, novaChave);
             return;
         }
 
-        for (int i = 0; i < nodo.getChaves().length - 1; i++) {
-            Integer chave = nodo.getChaves()[i];
-            if (chave != null && valor < chave || i > 0 && nodo.getChaves()[i - 1] != null && chave == null) {
-                if (nodo.getFilhos()[i] == null) {
-                    Nodo novoNodo = new Nodo(this.ordem);
-                    novoNodo.adicionaChave(valor);
+        List<Chave> chaves = nodo.getChaves();
+        for (int i = 0; i < chaves.size(); i++) {
+            Chave chave = chaves.get(i);
+            if (valor < chave.getValor()) {
+                if (chave.getFilhoAEsquerda() == null) {
+                    Nodo novoNodo = new Nodo();
+                    Chave novaChave = new Chave(valor);
+                    novoNodo.adicionaChave(novaChave);
                     novoNodo.setPai(nodo);
-                    nodo.adicionaFilho(novoNodo);
+                    chave.setFilhoAEsquerda(novoNodo);
                 } else {
-                    inserir(nodo.getFilhos()[i], valor);
+                    inserir(chave.getFilhoAEsquerda(), valor);
                 }
                 return;
             }
         }
 
-        Nodo ultimoFilho = nodo.getFilhos()[nodo.getFilhos().length - 2];
+        Chave ultimaChave = nodo.getChaves().get(nodo.getChaves().size() - 1);
+        Nodo ultimoFilho = ultimaChave.getFilhoADireita();
         if (ultimoFilho == null) {
-            Nodo novoNodo = new Nodo(this.ordem);
-            novoNodo.adicionaChave(valor);
-            novoNodo.setPai(nodo);
-            nodo.adicionaFilho(novoNodo);
+            Nodo novoNodo = new Nodo();
+            Chave novaChave = new Chave(valor);
+            novoNodo.adicionaChave(novaChave);
+            novoNodo.setPai(ultimoFilho);
+            ultimaChave.setFilhoADireita(novoNodo);
         } else {
             inserir(ultimoFilho, valor);
         }
     }
 
-    public void split(Nodo nodo, int valor) {
-        nodo.adicionaChave(valor);
-        ArrayList<Integer> listaComValor = new ArrayList<>(Arrays.asList(nodo.getChaves()));
-        listaComValor.sort(Integer::compare);
-
-        int indiceMeio = (listaComValor.size() % 2 == 0) ? (listaComValor.size() / 2 - 1) : (listaComValor.size() / 2);
-        Integer chaveMeio = listaComValor.get(indiceMeio);
+    public void split(Nodo nodo, Chave novaChave) {
+        nodo.adicionaChave(novaChave);
+        
+        List<Chave> chaves = nodo.getChaves();
+        int indiceMeio = (chaves.size() % 2 == 0) ? chaves.size() / 2 - 1 : chaves.size() / 2;
+        Chave chaveMeio = chaves.get(indiceMeio);
+        // └── [20] (null)
+        //     ├── [10] (20)
+        //     │   ├── [7] (10)
+        //     │   └── [11, 15] (10)
+        //     └── [28, 30, 50] (20)
+        //         ├── [26] (28)
+        //         ├── [29] (28)
+        //         └── [43, 50, 55] (28)
+        // chaveMeio: 29 < 30 > 43
+        // metadeEsquerda: [26 < 28 > 29] (28)
+        // metadeDireita: [null < 55 > null] (28)
 
         Nodo metadeEsquerda = nodo.clone();
-        metadeEsquerda.setChaves(listaComValor.subList(0, indiceMeio).toArray(new Integer[this.ordem]));
-        Nodo[] filhosAEsquerda = Arrays.copyOfRange(nodo.getFilhos(), 0, indiceMeio + 2);
-        metadeEsquerda.setFilhos(filhosAEsquerda);
-
+        metadeEsquerda.setChaves(chaves.subList(0, indiceMeio));
         Nodo metadeDireita = nodo.clone();
-        metadeDireita.setChaves(listaComValor.subList(indiceMeio + 1, listaComValor.size()).toArray(new Integer[this.ordem]));
-        Nodo[] filhosADireita = Arrays.copyOfRange(nodo.getFilhos(), indiceMeio + 1, this.ordem * 2);
-        metadeDireita.setFilhos(filhosADireita);
+        metadeDireita.setChaves(chaves.subList(indiceMeio + 1, chaves.size()));
+
+        for (Chave chave : metadeEsquerda.getChaves()) {
+            if (chave.getFilhoAEsquerda() != null) {
+                chave.getFilhoAEsquerda().setPai(metadeEsquerda);
+            }
+        }
+        Chave ultimaChaveEsquerda = metadeEsquerda.getChaves().get(metadeEsquerda.getChaves().size() - 1);
+        if (ultimaChaveEsquerda.getFilhoADireita() != null) {
+            ultimaChaveEsquerda.getFilhoADireita().setPai(metadeEsquerda);
+        }
+
+        for (Chave chave : metadeDireita.getChaves()) {
+            if (chave.getFilhoAEsquerda() != null) {
+                chave.getFilhoAEsquerda().setPai(metadeDireita);
+            }
+        }
+        Chave ultimaChaveDireita = metadeDireita.getChaves().get(metadeDireita.getChaves().size() - 1);
+        if (ultimaChaveDireita.getFilhoADireita() != null) {
+            ultimaChaveDireita.getFilhoADireita().setPai(metadeDireita);
+        }
+
+        chaveMeio.setFilhoAEsquerda(metadeEsquerda);
+        chaveMeio.setFilhoADireita(metadeDireita);
 
         if (nodo == this.raiz) {
-            this.raiz = new Nodo(this.ordem);
-            this.raiz.adicionaChave(chaveMeio);
+            this.raiz = new Nodo();
             metadeEsquerda.setPai(this.raiz);
-            this.raiz.adicionaFilho(metadeEsquerda);
             metadeDireita.setPai(this.raiz);
-            this.raiz.adicionaFilho(metadeDireita);
-
+            this.raiz.adicionaChave(chaveMeio);
             this.raiz.setEhFolha(false);
         } else {
             Nodo pai = nodo.getPai();
-            pai.removeFilho(nodo);
 
-            if(pai.getChaves()[pai.getChaves().length - 2] == null){
+            if (pai.getChaves().size() < this.ordem - 1) {
                 pai.adicionaChave(chaveMeio);
-                pai.adicionaFilho(metadeEsquerda);
-                pai.adicionaFilho(metadeDireita);
+                metadeEsquerda.setPai(pai);
+                metadeDireita.setPai(pai);
             } else {
-                pai.adicionaFilho(metadeEsquerda);
-                pai.adicionaFilho(metadeDireita);
                 split(pai, chaveMeio);
             }
-
-
         }
     }
 }
