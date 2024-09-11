@@ -86,17 +86,6 @@ public class ArvoreB {
         List<Chave> chaves = nodo.getChaves();
         int indiceMeio = (chaves.size() % 2 == 0) ? chaves.size() / 2 - 1 : chaves.size() / 2;
         Chave chaveMeio = chaves.get(indiceMeio);
-        // └── [20] (null)
-        //     ├── [10] (20)
-        //     │   ├── [7] (10)
-        //     │   └── [11, 15] (10)
-        //     └── [28, 30, 50] (20)
-        //         ├── [26] (28)
-        //         ├── [29] (28)
-        //         └── [43, 50, 55] (28)
-        // chaveMeio: 29 < 30 > 43
-        // metadeEsquerda: [26 < 28 > 29] (28)
-        // metadeDireita: [null < 55 > null] (28)
 
         Nodo metadeEsquerda = nodo.clone();
         metadeEsquerda.setChaves(chaves.subList(0, indiceMeio));

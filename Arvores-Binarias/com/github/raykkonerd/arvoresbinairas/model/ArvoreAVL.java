@@ -1,7 +1,5 @@
 package com.github.raykkonerd.arvoresbinairas.model;
 
-import java.lang.Math;
-
 public class ArvoreAVL extends ArvoreBinaria {
     public ArvoreAVL(int raiz) {
         super(raiz);
@@ -16,17 +14,13 @@ public class ArvoreAVL extends ArvoreBinaria {
             int fatorDeBalanceamento = alturaEsquerda - alturaDireita;
 
             if (fatorDeBalanceamento == 2 && fatorDeBalanceamentoEsquerda == 1) {
-                // Rotação simples à direita
                 rotacaoADireita(nodo);
             } else if (fatorDeBalanceamento == 2 && fatorDeBalanceamentoEsquerda == -1) {
-                // Rotação dupla à esquerda/direita
                 rotacaoAEsquerda(nodo.getEsquerda());
                 rotacaoADireita(nodo);
             } else if (fatorDeBalanceamento == -2 && fatorDeBalanceamentoDireita == -1) {
-                // Rotação simples à esquerda
                 rotacaoAEsquerda(nodo);
             } else if (fatorDeBalanceamento == -2 && fatorDeBalanceamentoDireita == 1) {
-                // Rotação dupla à direita/esquerda
                 rotacaoADireita(nodo.getDireita());
                 rotacaoAEsquerda(nodo);
             }

@@ -1,7 +1,6 @@
 package com.github.raykkonerd.arvoresb.model;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 public class Nodo implements Cloneable {
