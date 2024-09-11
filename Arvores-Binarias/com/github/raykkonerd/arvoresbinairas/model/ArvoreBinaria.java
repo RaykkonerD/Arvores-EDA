@@ -1,4 +1,4 @@
-package com.github.raykkonerd.model;
+package com.github.raykkonerd.arvoresbinairas.model;
 
 import java.lang.Math;
 
